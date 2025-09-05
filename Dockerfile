@@ -15,5 +15,5 @@ COPY . .
 RUN npm run build
 EXPOSE 9000
 
-# Command to run the Medusa server and migrations
+# Command to run the Medusa server
 CMD ["npm", "run", "start"]
