@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: medusa-backend
-  ECS_SERVICE: medusa-ecs-service
-  ECS_CLUSTER: medusa-ecs-cluster
+  ECS_SERVICE: medusa-project-service
+  ECS_CLUSTER: medusa-project-cluster 
   ECS_TASK_DEFINITION: task-definition.json
 
 jobs:
