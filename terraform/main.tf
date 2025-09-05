@@ -244,14 +244,8 @@ resource "aws_ecs_cluster" "main" {
   }
 }
 
-resource "aws_ecr_repository" "main" {
+data "aws_ecr_repository" "main" {
   name = var.ecr_repository_name
-  tags = {
-    Name = var.ecr_repository_name
-  }
-  lifecycle {
-    ignore_changes = all
-  }
 }
 
 resource "aws_ecs_task_definition" "main" {
@@ -266,7 +260,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
       name      = "medusa-container"
-      image     = "${aws_ecr_repository.main.repository_url}:latest"
+      image     = "${data.aws_ecr_repository.main.repository_url}:latest"
       cpu       = 256
       memory    = 512
       essential = true
@@ -365,6 +359,11 @@ resource "aws_iam_role" "ecs_task_role" {
     ]
   })
 }
+resource "aws_iam_role_policy_attachment" "ecs_task_role_policy" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess" # This policy is needed for the Medusa migrations to run correctly.
+}
+
 
 # --- Database (RDS and ElastiCache) ---
 resource "aws_db_instance" "main" {
