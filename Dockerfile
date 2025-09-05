@@ -18,4 +18,4 @@ RUN npm run build
 EXPOSE 9000
 
 # Command to run the Medusa server
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "npm run build && npm run start"]
